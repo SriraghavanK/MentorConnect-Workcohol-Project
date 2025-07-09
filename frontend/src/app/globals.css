@@ -1,0 +1,187 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --primary: #1e293b;
+  --secondary: #64748b;
+  --accent: #3b82f6;
+  --gold: #f59e0b;
+  --text: #0f172a;
+  --muted: #f8fafc;
+  --border: #e2e8f0;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+    --primary: #f8fafc;
+    --secondary: #cbd5e1;
+    --text: #f8fafc;
+    --muted: #1e293b;
+    --border: #334155;
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  --color-gold: var(--gold);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* Custom color extensions for Tailwind */
+.bg-primary {
+  background-color: var(--primary);
+}
+
+.bg-primary\/70 {
+  background-color: rgb(30 41 59 / 0.7);
+}
+
+.bg-primary\/90 {
+  background-color: rgb(30 41 59 / 0.9);
+}
+
+.bg-primary\/95 {
+  background-color: rgb(30 41 59 / 0.95);
+}
+
+.text-secondary {
+  color: var(--secondary);
+}
+
+.text-gold {
+  color: var(--gold);
+}
+
+.hover\:text-gold:hover {
+  color: var(--gold);
+}
+
+.bg-gold {
+  background-color: var(--gold);
+}
+
+.bg-gold\/90 {
+  background-color: rgb(245 158 11 / 0.9);
+}
+
+.hover\:bg-gold:hover {
+  background-color: var(--gold);
+}
+
+.border-gold\/50 {
+  border-color: rgb(245 158 11 / 0.5);
+}
+
+.focus\:border-gold\/50:focus {
+  border-color: rgb(245 158 11 / 0.5);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+  /* Performance optimizations */
+  text-rendering: optimizeSpeed;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--muted);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gold);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+/* Performance-optimized transitions - only apply to specific elements */
+.transition-optimized {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow,
+    transform, filter, backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+  will-change: transform, opacity;
+}
+
+/* Glass morphism effect */
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Gradient animations - optimized */
+@keyframes gradient-shift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 3s ease infinite;
+  will-change: background-position;
+}
+
+/* Progress bar animation */
+@keyframes progress {
+  0% { width: 0; }
+  100% { width: 100%; }
+}
+
+.animate-progress {
+  animation: progress 0.6s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* Fade in animation */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.4s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* Performance optimizations */
+* {
+  box-sizing: border-box;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
