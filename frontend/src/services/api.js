@@ -339,31 +339,38 @@ export const userAPI = {
       if (!profile || !profile.id) {
         throw new Error('Profile not found');
       }
-      // If profile_picture is a File or Blob, use FormData
-      let hasFile = profileData.profile_picture instanceof File || profileData.profile_picture instanceof Blob;
-      if (hasFile) {
-        const formData = new FormData();
-        for (const key in profileData) {
-          if (profileData[key] !== undefined && profileData[key] !== null) {
+      // Always use FormData for profile updates, but only include profile_picture if it's a File/Blob
+      const formData = new FormData();
+      for (const key in profileData) {
+        if (key === 'profile_picture') {
+          if (profileData[key] instanceof File || profileData[key] instanceof Blob) {
             formData.append(key, profileData[key]);
           }
+          // else skip appending profile_picture if it's a string (URL) or null
+        } else if (profileData[key] !== undefined && profileData[key] !== null) {
+          formData.append(key, profileData[key]);
         }
-        return await apiRequest(`/users/profiles/${profile.id}/`, {
-          method: 'PATCH',
-          body: formData,
-        });
-      } else {
-        return await apiRequest(`/users/profiles/${profile.id}/`, {
-          method: 'PATCH',
-          body: JSON.stringify(profileData),
-        });
       }
+      return await apiRequest(`/users/profiles/${profile.id}/`, {
+        method: 'PATCH',
+        body: formData,
+      });
     } catch (error) {
       // If profile doesn't exist, try to create it
       if (error.message.includes('404') || error.message.includes('not found')) {
+        const formData = new FormData();
+        for (const key in profileData) {
+          if (key === 'profile_picture') {
+            if (profileData[key] instanceof File || profileData[key] instanceof Blob) {
+              formData.append(key, profileData[key]);
+            }
+          } else if (profileData[key] !== undefined && profileData[key] !== null) {
+            formData.append(key, profileData[key]);
+          }
+        }
         return await apiRequest('/users/profiles/', {
           method: 'POST',
-          body: JSON.stringify(profileData),
+          body: formData,
         });
       }
       throw error;
